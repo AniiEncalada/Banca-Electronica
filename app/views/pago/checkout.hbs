@@ -1,0 +1,21 @@
+{{!-- Enlaces --}}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/administracion">Administración</a>
+    </li>
+    <li class="breadcrumb-item active">CheckOut</li>
+</ol>
+{{!-- /Enlaces --}}
+
+{{!-- Pago --}}
+<div class="card mb-3">
+    <div class="card-header"><i class="fas fa-credit-card"></i> Pago</div>
+    <div class="card-body">
+        {{!-- Formulario Pago --}}
+        <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={{variable}}"></script>
+        <form action="http://localhost:3000/resultado" class="paymentWidgets" data-brands="VISA MASTER AMEX"> </form>
+        {{!-- /Formulario Pago --}}
+    </div>
+    <div class="card-footer small text-muted">Realizar Pago</div>
+</div>
+{{!-- /Pago --}}

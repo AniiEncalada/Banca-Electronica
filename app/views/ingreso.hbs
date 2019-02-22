@@ -1,0 +1,324 @@
+<!-- Encabezado -->
+<header id="header" class="transparent-nav">
+    <div class="container">
+
+        <div class="navbar-header">
+            <!-- Logo -->
+            <div class="navbar-brand">
+                <a class="logo" href="/">
+                    <img src="/images/CDB-logo.png" alt="logo">
+                </a>
+            </div>
+            <!-- /Logo -->
+
+            <!-- Mobil Menú -->
+            <button class="navbar-toggle">
+                <span></span>
+            </button>
+            <!-- /Mobil Menú  -->
+        </div>
+
+        <!-- Navegación -->
+        <nav id="nav">
+            <ul class="main-menu nav navbar-nav navbar-right">
+                <li><a href="/">Principal</a></li>
+
+            </ul>
+        </nav>
+        <!-- /Navegación -->
+
+    </div>
+</header>
+<!-- /Encabezado -->
+
+<!-- Principal -->
+<div id="home" class="hero-area">
+
+    <!-- Fondo Imágen -->
+    <div class="bg-image bg-parallax overlay"
+        style="background-image:url(https://images.pexels.com/photos/1422408/pexels-photo-1422408.jpeg)"></div>
+    <!-- /Fondo Imágen -->
+
+    <div class="home-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="white-text">{{titulo}}</h1>
+                    <p class="lead white-text">Banca Electrónica en tus manos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /Principal -->
+
+<!-- Informativo -->
+<div id="courses" class="section">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+            <div class="section-header text-center">
+                <h2>Le damos la Bienvenida!</h2>
+                <p class="lead">Nuestros Servicios a tu disposición</p>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+
+
+</div>
+<!-- Informativo -->
+
+<!-- Formulario de Inicio de Sesión -->
+<div id="cta" class="section">
+
+    <!-- Fondo -->
+    <!--    <div class="bg-image bg-parallax overlay" style="background-image:url(https://images.unsplash.com/photo-1515180711443-f8685c6d6a74?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjE0MjB9&auto=format&fit=crop&w=1500&q=80)"></div>-->
+    <div class="bg-image bg-parallax overlay" style="background-image:url(../../images/CDB-logo.png)"></div>
+    <!-- /Fondo -->
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2 class="white-text">Inicio de Sesión</h2>
+                <p class="lead white-text">Por su seguridad, recuerde que sus datos son personales.</p>
+                {{!-- Alertas --}}
+                {{#if message}}
+                {{#each message}}
+                <div class="alert alert-{{@key}}"><i class="fa fa-user-circle"></i>
+                    {{this}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{/each}}
+                {{/if}}
+                {{!-- /Alertas --}}
+                <form class="formulario" action="/ingresar" method="POST">
+                    <div class="form-group">
+                        <label for="usuario" class="white-text">Usuario</label>
+                        <input name="correo" type="text" class="form-control" id="usuario" placeholder="Usuario" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="clave" class="white-text">Clave</label>
+                        <input name="clave" type="password" class="form-control" id="clave" placeholder="clave" required>
+                    </div>
+                    <button type="submit" class="main-button icon-button"><b>Ingresar</b></button>
+                </form>
+            </div>
+
+        </div>
+        <!-- /row -->
+
+    </div>
+    <!-- /container -->
+
+</div>
+<!-- /Formulario de Inicio de Sesión -->
+<!-- container -->
+<div class="container">
+
+    <!-- row -->
+    <div class="row">
+        <div class="section-header text-center">
+            <h2>Recomendaciones </h2>
+            <p class="lead">Por su seguridad y la de cuenta, tenga presente las siguientes recomendaciones</p>
+        </div>
+    </div>
+    <!-- /row -->
+
+    <!-- Enlace -->
+    <div id="courses-wrapper">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- single course -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="course">
+                    <a href="#" class="course-img">
+                        <img src="/images/CDB-logo.png" alt="">
+                        <i class="course-link-icon fa fa-link"></i>
+                    </a>
+                    <a class="course-title" href="#">No almacenar las contrseñas por defecto de los navegadores</a>
+                    <div class="course-details">
+                        <span class="course-category">Cuando utilice la Banca Electrónica de la Cooperativa Doña
+                            Bachita, el navegador que usa suele recordar sus claves, ¡no use ésta opción!; el
+                            almacenamiento por defecto de su contraseña puede hacerle más fácil el acceso a un atacante
+                            de su cuenta bancaria</span>
+                        <span class="course-category"><br>Cuando vea mensajes como éstos: </span>
+                        <span class="course-category"><br>Seleccione siempre la opción <strong>"¡No recordar nunca! ó
+                                ¡Jamás para este Sitio!"</strong> </span>
+                        <!-- <span class="course-price course-free">Free</span> -->
+                    </div>
+                </div>
+            </div>
+            <!-- /single course -->
+
+            <!-- single course -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="course">
+                    <a href="#" class="course-img">
+                        <img src="/images/CDB-logo.png" alt="">
+                        <i class="course-link-icon fa fa-link"></i>
+                    </a>
+                    <a class="course-title" href="#">No utilizar la Banca Electrónica en Cybers Cafés o en equipos no
+                        seguros</a>
+                    <div class="course-details">
+                        <span class="course-category">Preferentemente, no use computadores de escritorio o portátiles de
+                            sitios
+                            públicos o desconocidos, toda computadora almacena los datos de contraseña y sitios que
+                            visitamos,
+                            si entramos desde un cyber café a la Banca Electronica de la Cooperativa Doña Bachita, la
+                            siguiente persona que
+                            utilice la misma computadora podrá saber a qué sitios accedimos y que claves usamos,
+                            recuerde que no
+                            sabemos qué programas están instalados y que datos están almacenando.</span>
+                        <!-- <span class="course-price course-premium">Premium</span> -->
+                    </div>
+                </div>
+            </div>
+            <!-- /single course -->
+
+            <!-- single course -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="course">
+                    <a href="#" class="course-img">
+                        <img src="/images/CDB-logo.png" alt="">
+                        <i class="course-link-icon fa fa-link"></i>
+                    </a>
+                    <a class="course-title" href="#">Ignore correos electrónicos sospechosos que soliciten información
+                        personal</a>
+                    <div class="course-details">
+                        <span class="course-category">Como usuario, contraseña, clave, imagen, preguntas o coordenadas
+                            de su tarjeta.</span>
+                        <span class="course-category">No abra links sospechosos remitidos ya sea por correos
+                            electrónicos o redes sociales.</span>
+                        <span class="course-category">No reenvie correos sospechosos, pueden fomentar a la difusión de
+                            virus.</span>
+                        <span class="course-category">Mantenga sus antivirus actualizados.</span>
+                        <!-- <span class="course-price course-premium">Premium</span>-->
+                    </div>
+                </div>
+            </div>
+            <!-- /single course -->
+
+            <div class="col-md-3 col-sm-6 col-xs-6">
+                <div class="course">
+                    <a href="#" class="course-img">
+                        <img src="/images/CDB-logo.png" alt="">
+                        <i class="course-link-icon fa fa-link"></i>
+                    </a>
+                    <a class="course-title" href="#">Utilice sus contraseñas de manera segura</a>
+                    <div class="course-details">
+                        <span class="course-category">No utilice los nombres, números de cédula, números de teléfono, o
+                            fechas
+                            importantes como aniversarios y cumpleaños de sus familiares, ya que estos datos son fáciles
+                            de
+                            investigar y pueden ser objeto de robo de su identidad digital.<br>
+                            Para crear una contraseña segura use una combinación de letras mayúsculas, minúsculas,
+                            símbolos ( $, #, %, &, / ) y números. Por ejemplo: 04RIO!te21</span>
+                        <!-- <span class="course-price course-free">Free</span>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+        <div class="section-header text-center">
+            <p class="lead">No entregue a nadie su clave de ingreso ni los datos proporcionados en su registro</p>
+        </div>
+    </div>
+    <!-- /Ingreso -->
+
+    <!--  <div class="row">
+          <div class="center-btn">
+              <a class="main-button icon-button" href="#">More Courses</a>
+          </div>
+      </div>
+
+  </div>-->
+    <!-- container -->
+
+</div>
+<!-- /Pie de Página -->
+<footer id="footer" class="section">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- Logo -->
+            <div class="col-md-6">
+                <div class="footer-logo">
+                    <a class="logo" href="/">
+                        <img src="/images/CDB-logo.png" alt="logo">
+                    </a>
+                </div>
+            </div>
+            <!-- Logo -->
+
+            <!-- Navegación Pie de Página -->
+            <div class="col-md-6">
+                <ul class="footer-nav">
+                    <li><a href="/">Volver al Inicio</a></li>
+                </ul>
+            </div>
+            <!-- /Navegación Pie de Página -->
+
+        </div>
+        <!-- /row -->
+
+        <!-- row -->
+        <div id="bottom-footer" class="row">
+
+            <!-- Redes Sociales -->
+            <div class="col-md-4 col-md-push-8">
+                <ul class="footer-social">
+                    <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="#" class="instagram"><i class="fa fa-instagram"></i></a></li>
+                    <li><a href="#" class="youtube"><i class="fa fa-youtube"></i></a></li>
+                    <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+            <!-- /Redes Sociales -->
+
+            <!-- Copyright -->
+            <div class="col-md-8 col-md-pull-4">
+                <div class="footer-copyright">
+                    <span>&copy; Copyright 2018. Todos los derechos reservados | Cooperativa Doña Bachita <i
+                            class="fa fa-heart-o" aria-hidden="true"></i></span>
+                </div>
+            </div>
+            <!-- /Copyright -->
+
+        </div>
+        <!-- row -->
+
+    </div>
+    <!-- /container -->
+
+</footer>
+<!-- /Pie de Página -->
+
+<!-- Precargador -->
+<div id='preloader'>
+    <div class='preloader'></div>
+</div>
+<!-- /Precargador -->
+
+
+<!-- jQuery Plugins -->
+<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/javascripts/main.js"></script>

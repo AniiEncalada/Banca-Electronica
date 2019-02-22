@@ -1,0 +1,247 @@
+<!-- Encabezado -->
+<header id="header" class="transparent-nav">
+    <div class="container">
+
+        <div class="navbar-header">
+            <!-- Logo -->
+            <div class="navbar-brand">
+                <a class="logo" href="/">
+                    <img src="/images/CDB-logo.png" alt="logo">
+                </a>
+            </div>
+            <!-- /Logo -->
+
+            <!-- Mobil Menú -->
+            <button class="navbar-toggle">
+                <span></span>
+            </button>
+            <!-- /Mobil Menú  -->
+        </div>
+
+        <!-- Navegación -->
+        <nav id="nav">
+            <ul class="main-menu nav navbar-nav navbar-right">
+                <li><a href="/">Principal</a></li>
+
+            </ul>
+        </nav>
+        <!-- /Navegación -->
+
+    </div>
+</header>
+<!-- /Encabezado -->
+
+<!-- Principal -->
+<div id="home" class="hero-area">
+
+    <!-- Fondo Imágen -->
+    <div class="bg-image bg-parallax overlay"
+        style="background-image:url(https://images.pexels.com/photos/1422408/pexels-photo-1422408.jpeg)"></div>
+    <!-- /Fondo Imágen -->
+
+    <div class="home-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="white-text">{{titulo}}</h1>
+                    <p class="lead white-text">Banca Electrónica en tus manos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /Principal -->
+
+<!-- Informativo -->
+<div id="courses" class="section">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+            {{!-- Alertas --}}
+            {{#if message}}
+            {{#each message}}
+            <div class="alert alert-{{@key}}"><i class="fa fa-user-circle"></i>
+                {{this}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {{/each}}
+            {{/if}}
+            {{!-- /Alertas --}}
+            <div class="section-header text-center">
+                <h2>Le damos la Bienvenida!</h2>
+                <p class="lead">Nuestros Servicios a tu disposición</p>
+                <form class="formulario" action="/verificar" method="POST">
+                    <div class="text-center col-md-6">
+                        <div class="form-group">
+                            <label for="p1">Postre Favorito.</label>
+                            <input name="p1" type="text" class="form-control" id="p1" placeholder="Postre Favorito."
+                                required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="p2">Segundo nombre de su madre.</label>
+                            <input name="p2" type="text" class="form-control" id="p2"
+                                placeholder="Segundo nombre de su madre." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="p3">Deporte Favorito.</label>
+                            <input name="p3" type="text" class="form-control" id="p3" placeholder="Deporte Favorito."
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="p4">Primera escuela primaria a la que asistió.</label>
+                            <input name="p4" type="text" class="form-control" id="p4"
+                                placeholder="Primera escuela primaria a la que asistió." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="p5">Artista Favorito.</label>
+                            <input name="p5" type="text" class="form-control" id="p5" placeholder="Artista Favorito."
+                                required>
+                        </div>
+                    </div>
+                    <div class="text-center col-md-6">
+
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <img src="/images/verificacion/CDB-estrella.png" class="rounded">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imagen" id="imagen1"
+                                        value="CDB-estrella.png">
+                                    <label class="form-check-label" for="imagen1">Imágen 1</label>
+                                </div>
+                            </div>
+                            <div class="col col-md-4">
+                                <img src="/images/verificacion/CDB-foco.png" class="rounded">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imagen" id="imagen2"
+                                        value="CDB-foco.png">
+                                    <label class="form-check-label" for="imagen2">Imágen 2</label>
+                                </div>
+                            </div>
+                            <div class="col col-md-4">
+                                <img src="/images/verificacion/CDB-herramientas.png" class="rounded">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imagen" id="imagen3"
+                                        value="CDB-herramientas.png">
+                                    <label class="form-check-label" for="imagen3">Imágen 3</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-md-4">
+                                <img src="/images/verificacion/CDB-lentes.png" class="rounded">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imagen" id="imagen4"
+                                        value="CDB-lentes.png">
+                                    <label class="form-check-label" for="imagen4">Imágen 4</label>
+                                </div>
+                            </div>
+                            <div class="col col-md-4">
+                                <img src="/images/verificacion/CDB-mariposa.png" class="rounded">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imagen" id="imagen5"
+                                        value="CDB-mariposa.png">
+                                    <label class="form-check-label" for="imagen5">Imágen 5</label>
+                                </div>
+                            </div>
+                            <div class="col col-md-4">
+                                <img src="/images/verificacion/CDB-telefono.png" class="rounded">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="imagen" id="imagen6"
+                                        value="CDB-telefono.png">
+                                    <label class="form-check-label" for="imagen6">Imágen 6</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="main-button icon-button"><b>Verificar</b></button>
+                </form>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+
+
+</div>
+<!-- Informativo -->
+
+
+<!-- /Pie de Página -->
+<footer id="footer" class="section">
+
+    <!-- container -->
+    <div class="container">
+
+        <!-- row -->
+        <div class="row">
+
+            <!-- Logo -->
+            <div class="col-md-6">
+                <div class="footer-logo">
+                    <a class="logo" href="/">
+                        <img src="/images/CDB-logo.png" alt="logo">
+                    </a>
+                </div>
+            </div>
+            <!-- Logo -->
+
+            <!-- Navegación Pie de Página -->
+            <div class="col-md-6">
+                <ul class="footer-nav">
+                    <li><a href="/">Volver al Inicio</a></li>
+                </ul>
+            </div>
+            <!-- /Navegación Pie de Página -->
+
+        </div>
+        <!-- /row -->
+
+        <!-- row -->
+        <div id="bottom-footer" class="row">
+
+            <!-- Redes Sociales -->
+            <div class="col-md-4 col-md-push-8">
+                <ul class="footer-social">
+                    <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="#" class="instagram"><i class="fa fa-instagram"></i></a></li>
+                    <li><a href="#" class="youtube"><i class="fa fa-youtube"></i></a></li>
+                    <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+            <!-- /Redes Sociales -->
+
+            <!-- Copyright -->
+            <div class="col-md-8 col-md-pull-4">
+                <div class="footer-copyright">
+                    <span>&copy; Copyright 2018. Todos los derechos reservados | Cooperativa Doña Bachita <i
+                            class="fa fa-heart-o" aria-hidden="true"></i></span>
+                </div>
+            </div>
+            <!-- /Copyright -->
+
+        </div>
+        <!-- row -->
+
+    </div>
+    <!-- /container -->
+
+</footer>
+<!-- /Pie de Página -->
+
+<!-- Precargador -->
+<div id='preloader'>
+    <div class='preloader'></div>
+</div>
+<!-- /Precargador -->
+
+
+<!-- jQuery Plugins -->
+<script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/javascripts/main.js"></script>

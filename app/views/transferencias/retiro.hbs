@@ -1,0 +1,100 @@
+<script>
+    $().ready(function(){
+       function ipLookUp() {
+            $.ajax('http://ip-api.com/json')
+                .then(
+                    function success(response) {
+                        console.log('User\'s Location Data is ', response);
+                        console.log('User\'s Country', response.country);
+                    },
+
+                    function fail(data, status) {
+                        console.log('Request failed.  Returned status of',
+                            status);
+                    }
+                );
+        }
+        ipLookUp();
+       
+        $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function (data) {
+            console.log(JSON.stringify(data, null, 2));
+        });
+
+        function obtainGeolocation() {
+            //obtener la posición actual y llamar a la función  "localitation" cuando tiene éxito
+            window.navigator.geolocation.getCurrentPosition(localitation);
+        }
+        function localitation(geo) {
+
+            // En consola nos devuelve el Geoposition object con los datos nuestros
+            console.log(geo);
+        } 
+         obtainGeolocation();
+    });
+</script>
+
+<!-- Registro Retiro-->
+<div class="card mb-3">
+    <div class="card-header"><i class="fas fa-wine-glass-alt"></i> Retiro</div>
+    <div class="card-body">
+        <form action="/cajero/deposito" method="POST">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre"
+                                required="required" autofocus="autofocus">
+                            <label for="nombre">Titular  de la cuenta</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input type="text" id="valor" name="valor" class="form-control" placeholder="Valor"
+                                required="required">
+                            <label for="valor">Valor</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input type="text" id="nro" name="nro" class="form-control" placeholder="Numero de cuenta"
+                                required="required">
+                            <label for="nro">Numero de cuenta</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input type="text" id="depositante" name="depositante" class="form-control" placeholder="Numero de cuenta"
+                                required="required">
+                            <label for="depositante">Nombre del depositante</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input type="text" id="cantidad" name="cantidad" class="form-control" placeholder="Cantidad en numeros"
+                                required="required">
+                            <label for="cantidad">Valor en letras</label>
+                        </div>
+                    </div>
+                    {{!-- <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input type="text" id="depositante" name="depositante" class="form-control" placeholder="Numero de cuenta"
+                                required="required">
+                            <label for="depositante">Nombre del depositante</label>
+                        </div>
+                    </div> --}}
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary btn-block" value="Realizar Retiro">
+        </form>
+    </div>
+    <div class="card-footer small text-muted">Realizar Retiro - CDB</div>
+</div>
+<!-- /Registro Retiro-->

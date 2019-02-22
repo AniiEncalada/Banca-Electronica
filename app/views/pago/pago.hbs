@@ -1,0 +1,58 @@
+{{!-- Enlaces --}}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/administracion">Administración</a>
+    </li>
+    <li class="breadcrumb-item active">Pagos en Linea</li>
+</ol>
+{{!-- /Enlaces --}}
+
+<!-- Formulario -->
+<div class="card mb-3">
+    <div class="card-header"><i class="fas fa-credit-card"></i> Nuevo Pago en Linea</div>
+    <div class="card-body">
+        <form class="formulario" action="/checkout" method="POST">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6 offset-md-3 text-center">
+                        <label for="tipo">Seleccione el tipo de servicio que desea pagar:</label>
+                        <div class="form-label-group">
+                            <select class="form-control" name="tipo" id="tipo">
+                                <option value="CNT">CNT</option>
+                                <option value="Luz Eléctrica">Luz Eléctrica</option>
+                                <option value="Agua Potable">Agua Potable</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="form-label-group">
+                            <input type="text" id="monto" name="monto" class="form-control"
+                                placeholder="Ingrese el monto a pagar:" required="required">
+                            <label for="monto">Ingrese el monto a pagar</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="form-label-group">
+                            <input type="text" id="nroServicio" name="nroServicio" class="form-control"
+                                placeholder="Num.Servicio/Medidor/Num.Telefono" required="required">
+                            <label for="nroServicio">Num.Servicio/Medidor/Num.Teléfono</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 offset-md-3">
+                <input type="submit" class="btn btn-success btn-block" value="Continuar al CheckOut">
+            </div>
+        </form>
+    </div>
+    <div class="card-footer small text-muted">Pago en Linea - CDB</div>
+</div>
+<!-- /Formulario -->
