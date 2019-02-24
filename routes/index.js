@@ -3,7 +3,6 @@ var autentificacion = require('../app/controllers/AutenticacionController');
 var passport = require('passport');
 var router = express.Router();
 
-
 var persona = require('../app/controllers/personaController');
 var Persona = new persona();
 var cliente = require('../app/controllers/clientesController');
@@ -15,6 +14,7 @@ var verificacionController = new verificacion();
 var pago = require('../app/controllers/pago-controller');
 var pagoController = new pago();
 
+// PRINCIPAL
 /* GET Página Principal */
 router.get('/', function (req, res, next) {
     console.log("*************************************IPS********************************")
@@ -27,17 +27,16 @@ router.get('/', function (req, res, next) {
     res.render('index', { titulo: 'Cooperativa Doña Bachita', layout: 'layouts/layout' });
 });
 
-// Principal de Administrador
+// ADMINISTRADOR
+/* GET Página Administración */
 router.get('/administracion', function (req, res) {
-    res.render('administracion/admin', { titulo: 'Administrador', layout: 'layouts/administracion', message: req.flash() });
+    res.render('administracion/admin', { titulo: 'Administrador', layout: 'layouts/administracion', nombre: req.user.nombre, message: req.flash() });
 });
-// Ver registro de personal desde administracion
-router.get('/administracion/ver', function (req, res) {
-    res.render('administracion/tables', { titulo: 'Administrador', layout: 'layouts/administracion', message: req.flash() });
-});
+/* GET Página Registro Personal */
+router.get('/administracion/verPersonal', Persona.ver);
 
-router.get('/listar', Persona.listar);
-// LOGIN
+// INGRESO
+/* GET Página Inicio Sesión */
 router.get('/ingresar', autentificacion.signin);
 
 /* POST Página Inicio de Sesión */
@@ -47,7 +46,7 @@ router.post('/ingresar', passport.authenticate('local-signin', {
     failureFlash: true
 }));
 
-// Página de Registro
+// REGISTRO Y VERIFICACION
 /* GET Página Registro */
 router.get('/registro', autentificacion.signup);
 
@@ -65,13 +64,23 @@ router.get('/verificar', function (req, res) {
 /* POST Página Verificacion */
 router.post('/verificar', verificacionController.guardar);
 
-//SERVICIO AL CLIENTE
+// SERVICIO AL CLIENTE
+/* GET Página Ver Cliente */
+router.get('/servicios/verCliente', clienteController.ver);
 /* GET Página Registro Cliente */
 router.get('/administracion/registroCliente', clienteController.cargarVista);
-/* POST Página Registro Cliente */
+/* POST Registro Cliente */
 router.post('/administracion/registroCliente', clienteController.guardar);
 
-//Cajero
+// PERSONAS Y CUENTAS
+/* POST Modificar Datos Persona */
+router.post('/servicios/modificarPersona', Persona.modificarDatos);
+/* POST Modificar Cuenta Persona */
+router.post('/servicios/modificarPersonaCuenta', Persona.modificarCuenta);
+/* POST Modificar Estado Cuenta Persona */
+router.post('/servicios/modificarPersonaEstado', Persona.modificarEstado);
+
+// CAJERO
 /*TRANSACCION Pagina Registro Deposito*/
 router.get('/cajero/deposito', Transaccion.vistaDeposito);
 router.post('/cajero/deposito', Transaccion.guardarRetiro);
@@ -84,7 +93,7 @@ router.post('/cajero/retiro', Transaccion.guardarRetiro);
 router.get('/cliente/transferencia', Transaccion.vistaTransferencia);
 router.post('/cliente/transferencia', Transaccion.guardarTransferencia);
 
-// Pago en Linea
+// PAGO EN LINEA
 /* GET Página Pago */
 router.get('/pago', pagoController.cargarVista);
 router.post('/checkout', pagoController.cargarCheckOut);

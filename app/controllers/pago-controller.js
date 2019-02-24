@@ -62,7 +62,6 @@ class pagoController {
                                             var modeloTransaccion = {
                                                 valor: response.amount,
                                                 nro_cuenta: cuentaB.nro_cuenta,
-                                                lugar: 'Lugar',
                                                 fecha_transaccion: new Date(),
                                                 id_cuenta_bancaria: cuentaB.id,
                                                 id_movimiento: movimiento.id
@@ -77,9 +76,7 @@ class pagoController {
                                                 };
                                                 return HistorialPersona.create(modeloHistorial, { transaction: t }).then(function (newHistorial) {
                                                     return CuentaB.update({ saldo: (cuentaB.saldo - newTransaccion.valor) },
-                                                        { where: { id: cuentaB.id } }, { transaction: t }).then(function (newCuentaB) {
-                                                            
-                                                        });
+                                                        { where: { id: cuentaB.id }, transaction: t });
                                                 });
                                             });
                                         }).then(function (result) {
@@ -89,6 +86,8 @@ class pagoController {
                                                 titulo: 'Resultado', layout: 'layouts/administracion', resultado: JSON.stringify(response), message: req.flash()
                                             });
                                         }).catch(function (err) {
+                                            console.log(err);
+                                            console.log(JSON.stringify(err));
                                             console.log('**********************************ERROR EN EL PAGO**********************************');
                                             req.flash('danger', (err.errors) ? err.errors[0].message : 'Ocurrió un error inesperado. Vuelva a intentarlo.');
                                             res.redirect('/pago');

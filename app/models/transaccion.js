@@ -19,9 +19,6 @@ module.exports = function (sequelize, Sequelize) {
         nro_cuenta: {
             type: Sequelize.INTEGER
         },
-        lugar: {
-            type: Sequelize.STRING
-        },
         fecha_transaccion: {
             type: Sequelize.DATE
         }

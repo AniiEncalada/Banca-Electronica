@@ -10,8 +10,19 @@ var sequelize = models.sequelize;
 var uuid = require('uuid/v4');
 var bCrypt = require('bcrypt-nodejs');
 var nodemailer = require('../../config/nodemailer/nodemailer');
+var moment = require('moment');
 
 class ClienteController {
+    ver(req, res, next) {
+        Cuenta.findAll({ include: [{ model: Persona, where: { id_rol: 4 }, include: [Rol] }] }).then(function (cliente) {
+            if (cliente) {
+                res.render('verPersona', { titulo: 'Ver Registro de Clientes', layout: 'layouts/administracion', message: req.flash(), persona: cliente });
+            }
+        }).catch(err => {
+            return next(err);
+        });
+    }
+
     cargarVista(req, res) {
         res.render('administracion/registroClientes', { titulo: 'Registro de Clientes', layout: 'layouts/administracion', message: req.flash() });
     }
@@ -55,7 +66,7 @@ class ClienteController {
                                             var modeloHistorialPersona = {
                                                 actor_accion: req.user.nombre,
                                                 lugar_accion: 'LUGAR',
-                                                fecha_accion: new Date(),
+                                                fecha_accion: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
                                                 id_persona: newPersona.id,
                                                 id_historial: historial.id
                                             };
@@ -125,6 +136,7 @@ class ClienteController {
         var nroC = k.join('');
         return nroC;
     }
+
     static busqueda(nro) {
         condicion = false;
         CuentaB.findOne({ where: { nro_cuenta: nro } }).then(cuenta => {

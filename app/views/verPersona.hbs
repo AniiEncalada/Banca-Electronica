@@ -1,0 +1,367 @@
+{{!-- Script --}}
+<script>
+    function ipLookUp() {
+        $.ajax('http://ip-api.com/json').then(function success(response) {
+            console.log(response);
+            var lugar = response.city + ', ' + response.regionName + ', ' + response.countryCode + ', ' + response.query;
+            $('#lugar, #lugar1, #lugar2').val(lugar);
+        }, function fail(data, status) {
+            console.log('Error al obtener ubicación: ', status);
+        });
+    }
+
+    $().ready(function () {
+        ipLookUp();
+    });
+</script>
+{{!-- /Script --}}
+
+{{!-- Enlaces --}}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/administracion">Administracion</a>
+    </li>
+    <li class="breadcrumb-item active">{{titulo}}</li>
+</ol>
+{{!-- /Enlaces --}}
+
+{{!-- Tarjetas --}}
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-primary o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-fw fa-comments"></i>
+                </div>
+                <div class="mr-5">Nuevos mensajes!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">Ver</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-warning o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-fw fa-list"></i>
+                </div>
+                <div class="mr-5">Nuevas Tareas!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">Ver</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-success o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-fw fa-shopping-cart"></i>
+                </div>
+                <div class="mr-5">Anotaciones!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">Ver</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-danger o-hidden h-100">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-fw fa-life-ring"></i>
+                </div>
+                <div class="mr-5">Importante!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left">Ver</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+{{!-- /Tarjetas --}}
+
+{{!-- Tabla --}}
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        {{titulo}}</div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Cargo</th>
+                        <th>Nombre</th>
+                        <th>Cédula</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Cargo</th>
+                        <th>Nombre</th>
+                        <th>Cédula</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </tfoot>
+                <tbody id="tb">
+                    {{#each persona}}
+                    <tr>
+                        <td>{{this.persona.rol.nombre}}</td>
+                        <td>{{this.persona.nombre}}</td>
+                        <td>{{this.persona.cedula}}</td>
+                        <td>{{this.persona.telefono}}</td>
+                        <td>{{this.persona.ciudad}}</td>
+                        <td>
+                            <div class="text-center">
+                                <a id="d{{@index}}" href="#" class="btn btn-dark" data-toggle="modal"
+                                    data-target="#modalModificar"><i class="fas fa-edit"></i></a>
+                                <script>
+                                    $('#d{{@index}}').click(function () {
+                                        $('#external').val('{{this.persona.externalId}}');
+                                        $('#nombre').val('{{this.persona.nombre}}');
+                                        $('#apellido').val('{{this.persona.apellido}}');
+                                        $('#telefono').val('{{this.persona.telefono}}');
+                                        $('#ciudad').val('{{this.persona.ciudad}}');
+                                        $('#barrio').val('{{this.persona.barrio}}');
+                                        $('#numeroCasa').val('{{this.persona.numeroCasa}}');
+                                        $('#callePrincipal').val('{{this.persona.callePrincipal}}');
+                                        $('#calleSecundaria').val('{{this.persona.calleSecundaria}}');
+                                    });
+                                </script>
+                                <a id="p{{@index}}" href="#" class="btn btn-warning" data-toggle="modal"
+                                    data-target="#modalClave"><i class="fas fa-unlock-alt"></i></a>
+                                <script>
+                                    $('#p{{@index}}').click(function () {
+                                        $('#externalClave').val('{{this.externalId}}');
+                                        $('#correo').val('{{this.persona.email}}');
+                                    });
+                                </script>
+                                <a id="i{{@index}}" href="#" class="btn btn-danger" data-toggle="modal"
+                                    data-target="#modalDesactivar"><i class="fas fa-user-minus"></i></a>
+                                <script>
+                                    $('#i{{@index}}').click(function () {
+                                        $('#externalDesactivar').val('{{this.externalId}}');
+                                        $('#estado').val('{{this.estado}}');
+                                    });
+                                </script>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <p class="empty">No content</p>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">{{titulo}} - CDB</div>
+</div>
+{{!-- /Tabla --}}
+
+{{!-- Modal Modificar --}}
+<div class="modal fade" id="modalModificar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Configuración del Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="formulario" action="/servicios/modificarPersona" method="POST">
+                <div class="modal-body">
+                    <h6 class="dropdown-header">Datos Personales</h6>
+                    <div class="dropdown-divider"></div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="hidden" name="external" id="external" value="0">
+                                    <input type="hidden" name="lugar" id="lugar">
+                                    <input type="text" id="nombre" name="nombre" class="form-control"
+                                        placeholder="Nombre" required="required" autofocus="autofocus">
+                                    <label for="nombre">Nombre</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="apellido" name="apellido" class="form-control"
+                                        placeholder="Apellido" required="required">
+                                    <label for="apellido">Apellido</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="telefono" name="telefono" class="form-control"
+                                        placeholder="Teléfono" required="required">
+                                    <label for="telefono">Teléfono</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="ciudad" name="ciudad" class="form-control"
+                                        placeholder="Ciudad" required="required">
+                                    <label for="ciudad">Ciudad</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="barrio" name="barrio" class="form-control"
+                                        placeholder="Barrio" required="required">
+                                    <label for="barrio">Barrio</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="numeroCasa" name="numeroCasa" class="form-control"
+                                        placeholder="Número de Casa" required="required">
+                                    <label for="numeroCasa">Número de Casa</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="callePrincipal" name="callePrincipal" class="form-control"
+                                        placeholder="Calle Principal" required="required">
+                                    <label for="callePrincipal">Calle Principal</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="text" id="calleSecundaria" name="calleSecundaria" class="form-control"
+                                        placeholder="Calle Secundaria" required="required">
+                                    <label for="calleSecundaria">Calle Secundaria</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{!-- /Modal Modificar --}}
+
+{{!-- Modal Clave --}}
+<div class="modal fade" id="modalClave" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Configuración de la Cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="formulario" action="/servicios/modificarPersonaCuenta" method="POST">
+                <div class="modal-body">
+                    <h6 class="dropdown-header">Actualización de Correo Electrónico</h6>
+                    <div class="dropdown-divider"></div>
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input type="hidden" name="external" id="externalClave" value="0">
+                            <input type="hidden" name="lugar" id="lugar1">
+                            <input type="email" id="correo" name="correo" class="form-control"
+                                placeholder="Correo Eléctronico" required="required">
+                            <label for="correo">Correo Electrónico</label>
+                        </div>
+                    </div>
+                    <h6 class="dropdown-header">Actualización de Contraseña</h6>
+                    <div class="dropdown-divider"></div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="password" id="clave" name="clave" class="form-control"
+                                        placeholder="Nueva Contraseña">
+                                    <label for="clave">Nueva Contraseña</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-label-group">
+                                    <input type="password" id="newclave" name="newclave" class="form-control"
+                                        placeholder="Nueva Contraseña">
+                                    <label for="newclave">Repita nueva Contraseña</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{!-- /Modal Clave --}}
+
+{{!-- Modal Desactivar --}}
+<div class="modal fade" id="modalDesactivar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Estado de la Cuenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="formulario" action="/servicios/modificarPersonaEstado" method="POST">
+                <div class="modal-body">
+                    <h6 class="dropdown-header">Seleccione una opción para Activar o Desactivar la cuenta.</h6>
+                    <div class="dropdown-divider"></div>
+                    <div class="col-md-6 offset-md-3">
+                        <input type="hidden" name="external" id="externalDesactivar" value="0">
+                        <input type="hidden" name="lugar" id="lugar2">
+                        <select class="form-control" name="estado" id="estado">
+                            <option value="true">Cuenta Activa</option>
+                            <option value="false">Cuenta Inactiva</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{!-- /Modal Desactivar --}}

@@ -1,44 +1,19 @@
-<script>
-    $().ready(function () {
-        cargarTabla();
-    });
-    function cargarTabla() {
-        var url = 'http://localhost:3000/listar';
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data, textStatus, jqXHR) {
-                var html = '';
-                $.each(data, function (i, item) {
-                    html += '<tr>';
-                    html += '<td>' + item.rol.nombre + '</td>';
-                    html += '<td>' + item.nombre + '</td>';
-                    html += '<td>' + item.cedula + '</td>';
-                    html += '<td>' + item.telefono + '</td>';
-                    html += '<td>' + item.ciudad + '</td>';
-                    html += '<td><a href="#" >Accion</a></td>';
-                    html += '</tr>';
-                });
-                $("#tb").html(html);
-            }, error: function (jqXHR, textStatus, errorThrown) {
-
-            }
-        });
-    }
-</script>
-
-
-
-<!-- Breadcrumbs-->
+{{!-- Enlaces --}}
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="/administracion">Bienvenid@ </a>
+        <a href="/administracion">Administrador </a>
     </li>
-    <li class="breadcrumb-item active">Admin</li>
+    <li class="breadcrumb-item active">Principal</li>
 </ol>
+{{!-- /Enlaces --}}
 
-<!-- Icon Cards-->
+{{!-- Saludo --}}
+<div class="alert alert-info text-right"><i class="fas fa-user-circle"></i>
+    Es un gusto tenerte aquí, <b>{{nombre}}</b>.
+</div>
+{{!-- /Saludo --}}
+
+{{!-- Tarjetas --}}
 <div class="row">
     <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card text-white bg-primary o-hidden h-100">
@@ -105,18 +80,20 @@
         </div>
     </div>
 </div>
+{{!-- /Tarjetas --}}
 
-<!--Anotaciones-->
+{{!-- Anotaciones --}}
 <div class="card mb-3">
     <div class="card-header" id="anotaciones">
         <i class="fas fa-table"></i>
-        ANotaciones</div>
+        Anotaciones</div>
     <div class="card-body">
 
     </div>
 </div>
+{{!-- /Anotaciones --}}
 
-<!-- DataTables Example -->
+{{!-- Tabla --}}
 <div class="card mb-3">
     <div class="card-header" id="calendario">
         <i class="fas fa-table"></i>
@@ -294,3 +271,4 @@
     </div>
     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 </div>
+{{!-- /Tabla --}}
