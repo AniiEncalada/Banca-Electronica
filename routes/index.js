@@ -64,13 +64,12 @@ router.get('/verificar', function (req, res) {
 /* POST Página Verificacion */
 router.post('/verificar', verificacionController.guardar);
 
-// SERVICIO AL CLIENTE
-/* GET Página Ver Cliente */
+//SERVICIO AL CLIENTE
+/* GET Página listado Cliente */
 router.get('/servicios/verCliente', clienteController.ver);
-/* GET Página Registro Cliente */
-router.get('/administracion/registroCliente', clienteController.cargarVista);
-/* POST Registro Cliente */
-router.post('/administracion/registroCliente', clienteController.guardar);
+router.get('/servicios/registroCliente', clienteController.cargarCliente);
+/* POST Página Registro Cliente */
+router.post('/servicios/registroCliente', clienteController.guardar);
 
 // PERSONAS Y CUENTAS
 /* POST Modificar Datos Persona */
@@ -83,7 +82,7 @@ router.post('/servicios/modificarPersonaEstado', Persona.modificarEstado);
 // CAJERO
 /*TRANSACCION Pagina Registro Deposito*/
 router.get('/cajero/deposito', Transaccion.vistaDeposito);
-router.post('/cajero/deposito', Transaccion.guardarRetiro);
+router.post('/cajero/deposito', Transaccion.guardarDeposito);
 
 /*TRANSACCION Pagina Registro Retiro*/
 router.get('/cajero/retiro', Transaccion.vistaRetiro);
@@ -92,6 +91,14 @@ router.post('/cajero/retiro', Transaccion.guardarRetiro);
 /*TRANSACCION Pagina Registro Transferencia*/
 router.get('/cliente/transferencia', Transaccion.vistaTransferencia);
 router.post('/cliente/transferencia', Transaccion.guardarTransferencia);
+
+/**Ver listado de transacciones */
+router.get('/servicios/verTransaccion', Transaccion.transaccionCedula);
+router.post('/servicios/verTransaccion', Transaccion.transaccionCedula);
+
+//Prueba
+// router.get('/prueba', Transaccion.listar);
+
 
 // PAGO EN LINEA
 /* GET Página Pago */

@@ -1,38 +1,23 @@
 <script>
-    $().ready(function(){
-       function ipLookUp() {
-            $.ajax('http://ip-api.com/json')
-                .then(
-                    function success(response) {
-                        console.log('User\'s Location Data is ', response);
-                        console.log('User\'s Country', response.country);
-                    },
-
-                    function fail(data, status) {
-                        console.log('Request failed.  Returned status of',
-                            status);
-                    }
-                );
+    $().ready(function () {
+        function ipLookUp() {
+            $.ajax('http://ip-api.com/json').then(function success(response) {
+                console.log('User\'s Location Data is ', response);
+                $("#pais").val(response.country);
+                $("#ciudad").val(response.city);
+                $("#provincia").val(response.regionName);
+                $("#longitud").val(response.lon);
+                $("#latitud").val(response.lat);
+                $("#ip").val(response.query);
+                console.log('User\'s Country', response.country);
+            }, function fail(data, status) {
+                console.log('Request failed.  Returned status of', status);
+            });
         }
         ipLookUp();
-       
-        $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function (data) {
-            console.log(JSON.stringify(data, null, 2));
-        });
-
-        function obtainGeolocation() {
-            //obtener la posición actual y llamar a la función  "localitation" cuando tiene éxito
-            window.navigator.geolocation.getCurrentPosition(localitation);
-        }
-        function localitation(geo) {
-
-            // En consola nos devuelve el Geoposition object con los datos nuestros
-            console.log(geo);
-        } 
-         obtainGeolocation();
     });
 </script>
-
+{{lugar}}
 <!-- Registro -->
 <div class="card mb-3">
     <div class="card-header"><i class="fas fa-wine-glass-alt"></i> Deposito</div>
@@ -42,6 +27,17 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-label-group">
+                            {{!-- cedula --}}
+                            {{!-- <input type="hidden" id="cedula" value="" name="cedula"> --}}
+                            <!--obtener ubicacion-->
+                            <input type="hidden" id="ciudad" value="" name="ciudad">
+                            <input type="hidden" id="pais" value="" name="pais">
+                            <input type="hidden" id="latitud" value="" name="latitud">
+                            <input type="hidden" id="longitud" value="" name="longitud">
+                            <input type="hidden" id="ip" value="" name="ip">
+                            <input type="hidden" id="provincia" value="" name="provincia">
+                            <!--obtener ubicacion-->
+
                             <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre"
                                 required="required" autofocus="autofocus">
                             <label for="nombre">Tutilar de la cuenta</label>
@@ -67,8 +63,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-label-group">
-                            <input type="text" id="depositante" name="depositante" class="form-control" placeholder="Numero de cuenta"
-                                required="required">
+                            <input type="text" id="depositante" name="depositante" class="form-control"
+                                placeholder="Numero de cuenta" required="required">
                             <label for="depositante">Nombre del depositante</label>
                         </div>
                     </div>
@@ -78,8 +74,8 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-label-group">
-                            <input type="text" id="cantidad" name="cantidad" class="form-control" placeholder="Cantidad en numeros"
-                                required="required">
+                            <input type="text" id="cantidad" name="cantidad" class="form-control"
+                                placeholder="Cantidad en numeros" required="required">
                             <label for="cantidad">Valor en letras</label>
                         </div>
                     </div>

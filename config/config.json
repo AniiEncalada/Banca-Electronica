@@ -1,7 +1,7 @@
 {
     "development": {
         "username": "root",
-        "password": "victor1998",
+        "password": "2607anabel2016cordova",
         "database": "cdb",
         "host": "localhost",
         "dialect": "mysql",
@@ -10,7 +10,7 @@
     },
     "staging": {
         "username": "root",
-        "password": "victor1998",
+        "password": "2607anabel2016cordova",
         "database": "cdb",
         "host": "localhost",
         "dialect": "mysql",

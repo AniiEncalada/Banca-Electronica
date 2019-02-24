@@ -13,18 +13,16 @@ var nodemailer = require('../../config/nodemailer/nodemailer');
 var moment = require('moment');
 
 class ClienteController {
-    ver(req, res, next) {
-        Cuenta.findAll({ include: [{ model: Persona, where: { id_rol: 4 }, include: [Rol] }] }).then(function (cliente) {
-            if (cliente) {
-                res.render('verPersona', { titulo: 'Ver Registro de Clientes', layout: 'layouts/administracion', message: req.flash(), persona: cliente });
-            }
-        }).catch(err => {
-            return next(err);
-        });
+    cargarCliente(req, res) {
+        res.render('servicioClientes/registroClientes', {titulo: 'Registro de Clientes', layout: 'layouts/administracion', message: req.flash()});
     }
 
-    cargarVista(req, res) {
-        res.render('administracion/registroClientes', { titulo: 'Registro de Clientes', layout: 'layouts/administracion', message: req.flash() });
+    ver(req, res) {
+        Persona.findAll({where: {id_rol: 4}, include: [{model: Rol}]}).then(function (cliente) {
+            if (cliente) {
+                res.render('verPersona', {titulo: 'Ver Registro de Clientes', layout: 'layouts/administracion', message: req.flash(), persona: cliente});
+            }
+        });
     }
 
     guardar(req, res, next) {
