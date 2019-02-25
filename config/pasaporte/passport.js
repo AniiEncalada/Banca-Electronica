@@ -17,24 +17,34 @@ module.exports = function (passport, cuenta, persona, rol, historial, historial_
 
     passport.deserializeUser(function (id, done) {
         Cuenta.findOne({
-            where: {
-                id: id
-            },
-            include: [{
-                model: persona,
-                include: {
-                    model: rol
-                }
-            }]
+            where: { id: id }, include: [{ model: persona, include: { model: rol } }]
         }).then(function (cuenta) {
             if (cuenta) {
+                var auth;
+                switch (cuenta.persona.rol.id) {
+                    case 1:
+                        auth = { administrador: cuenta.persona.rol.nombre }
+                        break;
+                    case 2:
+                        auth = { servicioCliente: cuenta.persona.rol.nombre }
+                        break;
+                    case 3:
+                        auth = { cajero: cuenta.persona.rol.nombre }
+                        break;
+                    case 4:
+                        auth = { cliente: cuenta.persona.rol.nombre }
+                        break;
+                    default:
+                        break;
+                }
                 var userinfo = {
                     id: cuenta.id,
                     id_cuenta: cuenta.externalId,
                     id_persona: cuenta.persona.externalId,
                     persona: cuenta.persona.id,
                     nombre: cuenta.persona.apellido + " " + cuenta.persona.nombre,
-                    rol: cuenta.persona.rol.nombre
+                    rol: cuenta.persona.rol.nombre,
+                    auth: auth
                 };
                 console.log(userinfo);
                 done(null, userinfo);
@@ -82,9 +92,7 @@ module.exports = function (passport, cuenta, persona, rol, historial, historial_
                                 externalId: uuidv4(),
                                 id_rol: rol.id,
                             };
-                            return Persona.create(modeloPersona, {
-                                transaction: t
-                            }).then(function (newPersona) {
+                            return Persona.create(modeloPersona, { transaction: t }).then(function (newPersona) {
                                 console.log("**********************************PERSONA CREADA**********************************");
                                 var modeloCuenta = {
                                     usuario: email,
@@ -92,38 +100,28 @@ module.exports = function (passport, cuenta, persona, rol, historial, historial_
                                     id_persona: newPersona.id,
                                     externalId: uuidv4()
                                 };
-                                return Cuenta.create(modeloCuenta, {
-                                    transaction: t
-                                }).then(function (newCuenta) {
+                                return Cuenta.create(modeloCuenta, { transaction: t }).then(function (newCuenta) {
                                     console.log("**********************************CUENTA CREADA**********************************");
-                                    return Historial.findOne({
-                                        where: {
-                                            id: 'cc'
-                                        }
-                                    }, {
-                                            transaction: t
-                                        }).then(function (historial) {
-                                            var modeloHistorialPersona = {
-                                                actor_accion: req.user.nombre,
-                                                lugar_accion: 'LUGAR',
-                                                fecha_accion: new Date(),
-                                                id_persona: newPersona.id,
-                                                id_historial: historial.id
+                                    return Historial.findOne({ where: { id: 'cc' } }, { transaction: t }).then(function (historial) {
+                                        var modeloHistorialPersona = {
+                                            actor_accion: req.user.nombre,
+                                            lugar_accion: 'LUGAR',
+                                            fecha_accion: new Date(),
+                                            id_persona: newPersona.id,
+                                            id_historial: historial.id
+                                        };
+                                        return HistorialPersona.create(modeloHistorialPersona, { transaction: t }).then(function (newHistorial) {
+                                            console.log("**********************************HISTORIAL CREADO**********************************");
+                                            var mailOptions = {
+                                                from: 'CDB',
+                                                to: 'victor.rojas@unl.edu.ec',
+                                                subject: 'Confirmación de Cuenta',
+                                                text: 'Se necesita que confirme su cuenta: http:localhost:3000/administracion'
                                             };
-                                            return HistorialPersona.create(modeloHistorialPersona, {
-                                                transaction: t
-                                            }).then(function (newHistorial) {
-                                                console.log("**********************************HISTORIAL CREADO**********************************");
-                                                var mailOptions = {
-                                                    from: 'CDB',
-                                                    to: 'victor.rojas@unl.edu.ec',
-                                                    subject: 'Confirmación de Cuenta',
-                                                    text: 'Se necesita que confirme su cuenta: http:localhost:3000/administracion'
-                                                };
-                                                nodemailer(mailOptions);
-                                                return done(null, req.user, req.flash('success', 'Se ha realizado el registro con éxito.'));
-                                            });
+                                            nodemailer(mailOptions);
+                                            return done(null, req.user, req.flash('success', 'Se ha realizado el registro con éxito.'));
                                         });
+                                    });
                                 });
                             });
                         }).then(function (result) {
@@ -153,11 +151,7 @@ module.exports = function (passport, cuenta, persona, rol, historial, historial_
         var isValidPassword = function (userpass, password) {
             return bCrypt.compareSync(password, userpass);
         };
-        Cuenta.findOne({
-            where: {
-                usuario: email
-            }
-        }).then(function (cuenta) {
+        Cuenta.findOne({ where: { usuario: email } }).then(function (cuenta) {
             if (!cuenta) {
                 return done(null, false, req.flash('danger', 'La cuenta no existe.'));
             }

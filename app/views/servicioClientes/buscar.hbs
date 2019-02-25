@@ -1,20 +1,41 @@
-<!-- Registro -->
+<script>
+    $().ready(function (){
+        $("#busqueda").change(function (){
+            if($(this).val()=='cedula'){
+                $("#formulario").attr("action", '/servicios/transaccionCedula');
+            }else{
+                $("#formulario").attr("action", '/servicios/transaccionNumero');
+            }
+        });
+    });
+</script>
+
+<!-- BusquedA -->
 <div class="card mb-3">
     <div class="card-header"><i class="fas fa-wine-glass-alt"></i> Lista de Transacciones</div>
     <div class="card-body">
-        <form class="formulario" action="/servicios/verTransaccion" method="POST">
+        <form class="formulario" action="/servicios/transaccionCedula" method="POST" id="formulario">
             <div class="form-group">
                 <div class="form-row">
                     <div class="col-md-6 offset-md-3">
+                        <label for="busqueda" class="col-md-6 offset-md-3">Concepto de buqueda</label>
                         <div class="form-label-group">
-                            <input type="text" id="cedula" name="cedula" class="form-control" placeholder="Cedula"
-                                required="required" autofocus="autofocus">
-                            <label for="cedula">Cedula</label>
+                            <select class="form-label-group form-control" id="busqueda">
+                                <option value="cedula">Buscar por número de cedula</option>
+                                <option value="numero">Buscar por número de cuenta bancaria</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-3 mt-3">
+                        <div class="form-label-group">
+                            <input type="text" id="buscar" name="buscar" class="form-control" placeholder="Dato para buscar"
+                                   required="required" autofocus="autofocus">
+                            <label for="buscar" >Dato para buscar</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary btn-block" value="Buscar">
+            <input type="submit" class="btn btn-primary btn-block col-md-6 offset-md-3" value="Buscar">
         </form>
     </div>
 </div>

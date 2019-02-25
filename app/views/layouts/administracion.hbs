@@ -110,7 +110,8 @@
                         <a class="dropdown-item" href="#">Configuraciones</a>
                         <a class="dropdown-item" href="#">Desactivar cuenta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Salir</a>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Cerrar
+                            Sesión</a>
                     </div>
                 </li>
             </ul>
@@ -129,6 +130,7 @@
                     <span>Principal</span>
                 </a>
             </li>
+            {{#if rol.administrador}}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -139,7 +141,6 @@
                     <h6 class="dropdown-header">Administrar personal:</h6>
                     <a class="dropdown-item" href="/administracion/verPersonal">Ver</a>
                     <a class="dropdown-item" href="/registro">Registrar</a>
-                    <!--                        <input class="dropdown-item" type="submit" value="Registrar">-->
                     <a class="dropdown-item" href="#">Revisar</a>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Otros</h6>
@@ -147,7 +148,10 @@
                     <a class="dropdown-item" href="#">Acciones</a>
                 </div>
             </li>
+            {{/if}}
+
             {{!-- Transacciones start --}}
+            {{#if rol.cajero}}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -158,14 +162,34 @@
                     <h6 class="dropdown-header">Realizar transacciones:</h6>
                     <a class="dropdown-item" href="/cajero/retiro">Retiros</a>
                     <a class="dropdown-item" href="/cajero/deposito">Depositos</a>
-                    <a class="dropdown-item" href="/cliente/transferencia">Transferencias</a>
                     {{!-- <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Otros</h6>
                     <a class="dropdown-item" href="/cajero/deposito">Cambiar contraseña</a>
                     <a class="dropdown-item" href="/administracion/registroCliente">Acciones</a> --}}
                 </div>
             </li>
+            {{/if}}
             {{!-- Transacciones end --}}
+
+            {{#if rol.cliente}}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Transacciones</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <h6 class="dropdown-header">Realizar transacciones:</h6>
+                    <a class="dropdown-item" href="/cliente/transferencia">Transferencias</a>
+                    <div class="dropdown-divider"></div>
+                    <h6 class="dropdown-header">Acciones</h6>
+                    <a class="dropdown-item" href="/cajero/deposito">Revisar</a>
+                </div>
+            </li>
+            {{!-- Transacciones end --}}
+            {{/if}}
+
+            {{#if rol.servicioCliente}}
             {{!-- SERVICIO AL CLIENTE start --}}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
@@ -178,28 +202,23 @@
                     <a class="dropdown-item" href="/servicios/registroCliente">Registrar clientes</a>
                     <a class="dropdown-item" href="/servicios/verCliente">Ver</a>
                     <a class="dropdown-item" href="/servicios/verTransaccion">Revisar</a>
-                    {{!-- <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Otros</h6>
-                    <a class="dropdown-item" href="/cajero/deposito">Cambiar contraseña</a>
-                    <a class="dropdown-item" href="/administracion/registroCliente">Acciones</a> --}}
                 </div>
             </li>
             {{!-- SERVICIO AL CLIENTE end --}}
+            {{/if}}
+
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Historial</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Area de trabajo</span></a>
-            </li>
+            {{#if rol.cliente}}
             <li class="nav-item">
                 <a class="nav-link" href="/pago">
                     <i class="fas fa-fw fa-credit-card"></i>
                     <span>Pagos en Linea</span></a>
             </li>
+            {{/if}}
         </ul>
         {{!-- /Sidebar --}}
 
@@ -253,15 +272,20 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Cerrar Sesión</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">
+                    <div class="alert alert-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Por favor, Seleccione <b>Salir</b> si desea terminar con la
+                        sesión actual. Para volver pulse <b>Cancelar</b>.
+                    </div>
+                </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-warning" href="/salir">Salir</a>
                 </div>
             </div>
         </div>

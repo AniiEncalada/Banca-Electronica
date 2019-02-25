@@ -9,10 +9,16 @@ var https = require('https');
 var querystring = require('querystring');
 var sequelize = models.sequelize;
 var moment = require('moment');
+var authUser = require('./auth-controller');
+var createError = require('http-errors');
 
 class pagoController {
     cargarVista(req, res, next) {
-        res.render('pago/pago', { titulo: 'Pagos en Linea', layout: 'layouts/administracion', message: req.flash() });
+        if (authUser(['Cliente'], req.user.rol)) {
+            res.render('pago/pago', { titulo: 'Pagos en Linea', layout: 'layouts/administracion',rol: req.user.auth, message: req.flash() });
+        } else {
+            return next(createError(401, 'Permiso Denegado.'))
+        }
     }
 
     cargarCheckOut(req, res, next) {
@@ -23,9 +29,13 @@ class pagoController {
                         if (response) {
                             console.log(response);
                             if (/^(000\.200)/.test(response.result.code)) {
-                                res.render('pago/checkout', {
-                                    titulo: 'CheckOut', layout: 'layouts/administracion', variable: response.id, message: req.flash()
-                                });
+                                if (authUser(['Cliente'], req.user.rol)) {
+                                    res.render('pago/checkout', {
+                                        titulo: 'CheckOut', layout: 'layouts/administracion', variable: response.id, rol: req.user.auth, valor: req.body.monto, message: req.flash()
+                                    });
+                                } else {
+                                    return next(createError(401, 'Permiso Denegado.'))
+                                }
                             } else {
                                 req.flash('warning', 'Lo sentimos, Ocurrió un error al obtener el CheckOut.');
                                 res.redirect('/pago');
@@ -82,9 +92,14 @@ class pagoController {
                                         }).then(function (result) {
                                             console.log('**********************************PAGO EXITOSO**********************************');
                                             req.flash('success', 'El pago se ha realizado con éxito.');
-                                            res.render('pago/resultado', {
-                                                titulo: 'Resultado', layout: 'layouts/administracion', resultado: JSON.stringify(response), message: req.flash()
-                                            });
+                                            if (authUser(['Cliente'], req.user.rol)) {
+                                                res.render('pago/resultado', {
+                                                    titulo: 'Resultado',rol: req.user.auth,  layout: 'layouts/administracion', resultado: /*JSON.stringify(response)*/ response, message: req.flash()
+                                                });
+                                            } else {
+                                                return next(createError(401, 'Permiso Denegado.'))
+                                            }
+                                            
                                         }).catch(function (err) {
                                             console.log(err);
                                             console.log(JSON.stringify(err));

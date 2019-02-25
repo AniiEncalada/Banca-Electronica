@@ -1,32 +1,32 @@
-'use strict'
-var models = require('../models/index');
-var Persona = models.persona;
-var Cuenta = models.cuenta;
-var CuentaB = models.cuenta_bancaria;
+// 'use strict'
+// var models = require('../models/index');
+// var Persona = models.persona;
+// var Cuenta = models.cuenta;
+// var CuentaB = models.cuenta_bancaria;
 
-//ROLLBACK
-models.sequelize.transaction(function (t) {
-    return Persona.create({
-        cedula: '11058s3445939',
-        email: 'ejemploss.com'
-    }, { transaction: t }).then(function (persona) {
-        console.log("==================SE CREO LA PERSONA================");
-        return Cuenta.create({
-            usuario: persona.email
-        }, { transaction: t }).then(function (cuenta) {
-            console.log("==================SE CREO LA CUENTA================");
-        });
-    });
-}).then(function (result) {
-    console.log("==================TODO CORRECTO================");
-    // Transaction has been committed
-    // result is whatever the result of the promise chain returned to the transaction callback 
-}).catch(function (err) {
-    console.log(JSON.stringify(err));
-    console.log("==================ROLLBACK ACTIVADO================");
-    // Transaction has been rolled back
-    // err is whatever rejected the promise chain returned to the transaction callback
-});
+// //ROLLBACK
+// models.sequelize.transaction(function (t) {
+//     return Persona.create({
+//         cedula: '11058s3445939',
+//         email: 'ejemploss.com'
+//     }, { transaction: t }).then(function (persona) {
+//         console.log("==================SE CREO LA PERSONA================");
+//         return Cuenta.create({
+//             usuario: persona.email
+//         }, { transaction: t }).then(function (cuenta) {
+//             console.log("==================SE CREO LA CUENTA================");
+//         });
+//     });
+// }).then(function (result) {
+//     console.log("==================TODO CORRECTO================");
+//     // Transaction has been committed
+//     // result is whatever the result of the promise chain returned to the transaction callback 
+// }).catch(function (err) {
+//     console.log(JSON.stringify(err));
+//     console.log("==================ROLLBACK ACTIVADO================");
+//     // Transaction has been rolled back
+//     // err is whatever rejected the promise chain returned to the transaction callback
+// });
 //ROLLBACK
 
 //NUMERO DE CUENTA

@@ -9,10 +9,43 @@
 
 {{!-- Resultados --}}
 <div class="card mb-3">
-    <div class="card-header"><i class="fas fa-paragraph"></i> Resultados de Pago</div>
+    <div class="card-header"><i class="fas fa-list-alt"></i> Resultados de Pago</div>
     <div class="card-body">
-        <div class="alert alert-success">
-            {{resultado}}
+        <div class="alert alert-light">
+            <div class="container text-center table-responsive">
+                <h6 class="dropdown-header">Detalle de la transacción</h6>
+                <div class="dropdown-divider"></div>
+                <table class="table table-striped table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Opción</th>
+                            <th scope="col">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Tipo de Pago</b></td>
+                            <td>{{resultado.paymentType}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Marca de Pago</b></td>
+                            <td>{{resultado.paymentBrand}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Monto</b></td>
+                            <td>${{resultado.amount}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Tarjeta</b></td>
+                            <td>**** **** **** {{resultado.card.last4Digits}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Vencimiento</b></td>
+                            <td>{{resultado.card.expiryMonth}}/{{resultado.card.expiryYear}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="card-footer small text-muted">Resultados</div>

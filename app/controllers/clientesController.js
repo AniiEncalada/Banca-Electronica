@@ -11,17 +11,29 @@ var uuid = require('uuid/v4');
 var bCrypt = require('bcrypt-nodejs');
 var nodemailer = require('../../config/nodemailer/nodemailer');
 var moment = require('moment');
+var authUser = require('./auth-controller');
+var createError = require('http-errors');
 
 class ClienteController {
-    cargarCliente(req, res) {
-        res.render('servicioClientes/registroClientes', {titulo: 'Registro de Clientes', layout: 'layouts/administracion', message: req.flash()});
+    cargarCliente(req, res, next) {
+        if (authUser(['Servicio al Cliente'], req.user.rol)) {
+            res.render('servicioClientes/registroClientes', { titulo: 'Registro de Clientes',rol: req.user.auth, layout: 'layouts/administracion', message: req.flash() });
+        } else {
+            return next(createError(401, 'Permiso Denegado.'))
+        }
     }
 
-    ver(req, res) {
-        Persona.findAll({where: {id_rol: 4}, include: [{model: Rol}]}).then(function (cliente) {
+    ver(req, res, next) {
+        Cuenta.findAll({ include: [{ model: Persona, where: { id_rol: 4 }, include: [Rol] }] }).then(function (cliente) {
             if (cliente) {
-                res.render('verPersona', {titulo: 'Ver Registro de Clientes', layout: 'layouts/administracion', message: req.flash(), persona: cliente});
+                if (authUser(['Servicio al Cliente'], req.user.rol)) {
+                    res.render('verPersona', { titulo: 'Ver Registro de Clientes', layout: 'layouts/administracion', persona: cliente, rol: req.user.auth, message: req.flash() });
+                } else {
+                    return next(createError(401, 'Permiso Denegado.'))
+                }
             }
+        }).catch(err => {
+            return next(err);
         });
     }
 
@@ -30,7 +42,7 @@ class ClienteController {
             if (cuenta) {
                 console.log("**********************************USUARIO YA REGISTRADO**********************************");
                 req.flash('danger', 'El correo que ingresó ya se encuentra registrado.');
-                res.redirect('/administracion/registroCliente');
+                res.redirect('/servicios/registroCliente');
             } else {
                 return Rol.findOne({ where: { id: 4 } }).then(function (rol) {
                     if (rol) {
@@ -88,22 +100,22 @@ class ClienteController {
                                         });
                                     } else {
                                         req.flash('warning', 'No se ha podido asignar un historial al cliente.');
-                                        res.redirect('/administracion/registroCliente');
+                                        res.redirect('/servicios/registroCliente');
                                     }
                                 });
                             });
                         }).then(function (result) {
                             console.log('**********************************REGISTRO EXITOSO**********************************');
                             req.flash('success', 'El registro se ha realizado con éxito.');
-                            res.redirect('/administracion/registroCliente');
+                            res.redirect('/servicios/registroCliente');
                         }).catch(function (err) {
                             console.log('**********************************ERROR EN EL REGISTRO**********************************');
                             req.flash('danger', (err.errors) ? err.errors[0].message : 'Ocurrió un error inesperado. Vuelva a intentarlo.');
-                            res.redirect('/administracion/registroCliente');
+                            res.redirect('/servicios/registroCliente');
                         });
                     } else {
                         req.flash('warning', 'No se ha podido encontrar el rol.');
-                        res.redirect('/administracion/registroCliente');
+                        res.redirect('/servicios/registroCliente');
                     }
                 }).catch(err => {
                     return next(err);

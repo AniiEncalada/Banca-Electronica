@@ -6,6 +6,7 @@ var Formulario = models.formulario;
 var sequelize = models.sequelize;
 
 class VerificacionController {
+    
     guardar(req, res, next) {
         return sequelize.transaction(function (t) {
             var modeloFormulario = {

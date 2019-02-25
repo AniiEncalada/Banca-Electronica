@@ -1,7 +1,13 @@
 var exports = module.exports = {};
+var authUser = require('./auth-controller');
+var createError = require('http-errors');
 
-exports.signup = function (req, res) {
-    res.render('administracion/register', { titulo: 'Cooperativa Doña Bachita | Registrar Personal', layout: 'layouts/signup', message: req.flash() });
+exports.signup = function (req, res, next) {
+    if (authUser(['Administrador'], req.user.rol)) {
+        res.render('administracion/register', { titulo: 'Cooperativa Doña Bachita | Registrar Personal', layout: 'layouts/administracion', rol: req.user.auth, message: req.flash() });
+    } else {
+        return next(createError(401, 'Permiso Denegado.'))
+    }
 };
 
 exports.signin = function (req, res) {
@@ -10,6 +16,6 @@ exports.signin = function (req, res) {
 
 exports.logout = function (req, res) {
     req.session.destroy(function (err) {
-        res.redirect('/');
+        res.redirect('/ingresar');
     });
 };

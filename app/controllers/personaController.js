@@ -11,12 +11,18 @@ var nodemailer = require('../../config/nodemailer/nodemailer');
 var moment = require('moment');
 var Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+var authUser = require('./auth-controller');
+var createError = require('http-errors');
 
 class PersonaController {
     ver(req, res, next) {
         Cuenta.findAll({ include: [{ model: Persona, where: { [Op.or]: [{ id_rol: 2 }, { id_rol: 3 }] }, include: [Rol] }] }).then(function (personal) {
             if (personal) {
-                res.render('verPersona', { titulo: 'Ver Registro de Personal', layout: 'layouts/administracion', message: req.flash(), persona: personal });
+                if (authUser(['Administrador'], req.user.rol)) {
+                    res.render('verPersona', { titulo: 'Ver Registro de Personal', rol: req.user.auth, layout: 'layouts/administracion', message: req.flash(), persona: personal });
+                } else {
+                    return next(createError(401, 'Permiso Denegado.'))
+                }
             }
         }).catch(err => {
             return next(err);
