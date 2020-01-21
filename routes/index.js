@@ -19,7 +19,11 @@ var authUser = require('../app/controllers/auth-controller');
 // Middleware de Autenticación
 var auth = function middleware(req, res, next) {
     if (req.isAuthenticated()) {
-        next();
+        if (req.user.estado == false) {
+            req.flash('danger', 'Se necesita primeramente que se verifique su cuenta.');
+            res.redirect('/verificar');
+        } else
+            next();
     } else {
         req.flash('danger', 'Se necesita primeramente iniciar sesión.');
         res.redirect('/ingresar');
@@ -29,14 +33,22 @@ var auth = function middleware(req, res, next) {
 // PRINCIPAL
 /* GET Página Principal */
 router.get('/', function (req, res, next) {
-    res.render('index', { titulo: 'Cooperativa Doña Bachita', layout: 'layouts/layout' });
+    res.render('index', {
+        titulo: 'Cooperativa Doña Bachita',
+        layout: 'layouts/layout'
+    });
 });
 
 // CLIENTE
 /* GET Página Cliente */
 router.get('/cliente', auth, function (req, res, next) {
     if (authUser(['Cliente'], req.user.rol)) {
-        res.render('administracion/admin', { titulo: 'Cliente', layout: 'layouts/administracion', nombre: req.user.nombre, rol: req.user.auth, message: req.flash() });
+        res.render('administracion/admin', {
+            titulo: 'Cliente', layout: 'layouts/administracion',
+            nombre: req.user.nombre,
+            rol: req.user.auth,
+            message: req.flash()
+        });
     } else {
         next(createError(401, 'Permiso Denegado.'));
     }
@@ -46,7 +58,10 @@ router.get('/cliente', auth, function (req, res, next) {
 /* GET Página Administración */
 router.get('/administracion', auth, function (req, res, next) {
     if (authUser(['Administrador', 'Servicio al Cliente', 'Cajero'], req.user.rol)) {
-        res.render('administracion/admin', { titulo: 'Administrador', layout: 'layouts/administracion', nombre: req.user.nombre, rol: req.user.auth, message: req.flash() });
+        res.render('administracion/admin', {
+            titulo: 'Administrador', layout: 'layouts/administracion',
+            nombre: req.user.nombre, rol: req.user.auth, message: req.flash()
+        });
     } else {
         res.redirect('/cliente');
     }
@@ -59,29 +74,50 @@ router.get('/administracion/verPersonal', auth, Persona.ver);
 router.get('/ingresar', autentificacion.signin);
 
 /* POST Página Inicio de Sesión */
-router.post('/ingresar', passport.authenticate('local-signin', {
-    successRedirect: '/administracion',
-    failureRedirect: '/ingresar',
-    failureFlash: true
-}));
+router.post('/ingresar', function (req, res, next) {
+    passport.authenticate('local-signin',
+        function (err, user, info) {
+            if (err) { return next(err); }
+            if (!user) { return res.redirect('/ingresar'); }
+            req.logIn(user, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                if (!user.estado) { return res.redirect('/verificar') }
+                return res.redirect('/administracion');
+            });
+        })(req, res, next);
+})
 
 // REGISTRO Y VERIFICACION
 /* GET Página Registro */
-router.get('/registro', autentificacion.signup);
+router.get('/registro', auth, autentificacion.signup);
 
 /* POST Página Registro */
-router.post('/registro', passport.authenticate('local-signup', {
+router.post('/registro', auth, passport.authenticate('local-signup', {
     successRedirect: '/administracion',
     failureRedirect: '/registro',
     failureFlash: true
 }));
 
 /* GET Página Verificacion */
-router.get('/verificar', auth, function (req, res) {
-    res.render('verificacion/frm-verificacion', { titulo: 'Verificación', layout: 'layouts/layout', message: req.flash() });
+router.get('/verificar', function (req, res) {
+    if (req.isAuthenticated()) {
+        if (req.user.estado) {
+            req.flash('success', 'Su cuenta ya está verificada.');
+            res.redirect('/administracion');
+        } else
+            res.render('verificacion/frm-verificacion', {
+                titulo: 'Verificación',
+                layout: 'layouts/layout', message: req.flash()
+            });
+    } else {
+        req.flash('danger', 'Se necesita primeramente iniciar sesión.');
+        res.redirect('/ingresar');
+    }
 });
 /* POST Página Verificacion */
-router.post('/verificar', auth, verificacionController.guardar);
+router.post('/verificar', verificacionController.guardar);
 
 //SERVICIO AL CLIENTE
 /* GET Página listado Cliente */
@@ -128,6 +164,6 @@ router.post('/checkout', auth, pagoController.cargarCheckOut);
 router.get('/resultado', auth, pagoController.cargarResultado);
 
 // CERRAR SESION
-router.get('/salir', auth, autentificacion.logout);
+router.get('/salir', autentificacion.logout);
 
 module.exports = router;

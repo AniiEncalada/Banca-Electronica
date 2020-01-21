@@ -44,6 +44,7 @@ module.exports = function (passport, cuenta, persona, rol, historial, historial_
                     persona: cuenta.persona.id,
                     nombre: cuenta.persona.apellido + " " + cuenta.persona.nombre,
                     rol: cuenta.persona.rol.nombre,
+                    estado: cuenta.estado,
                     auth: auth
                 };
                 console.log(userinfo);
