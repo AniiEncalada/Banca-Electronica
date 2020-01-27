@@ -82,16 +82,26 @@
 </div>
 {{!-- /Tarjetas --}}
 
+{{#if rol.cliente}}
 {{!-- Anotaciones --}}
 <div class="card mb-3">
     <div class="card-header" id="anotaciones">
-        <i class="fas fa-table"></i>
-        Anotaciones</div>
+        <i class="fas fa-info-circle"></i>
+        Detalles de la cuenta</div>
     <div class="card-body">
-
+        <p>
+            <small>
+                <b>Número de cuenta: </b> {{cuentaB.nro_cuenta}}<br>
+                <b>Estado de cuenta: </b> {{cuentaB.estado_cuenta}}<br>
+                <b>Saldo Disponible:</b> ${{cuentaB.saldo}}<br>
+                <b>Fecha de Apertura:</b> {{cuentaB.fecha_apertura}}<br>
+                <b>Fecha de Modificación:</b> {{cuentaB.fecha_modificacion}}<br>
+            </small>
+        </p>
     </div>
 </div>
 {{!-- /Anotaciones --}}
+{{/if}}
 
 {{!-- Tabla --}}
 <div class="card mb-3">

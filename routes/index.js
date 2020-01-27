@@ -41,18 +41,7 @@ router.get('/', function (req, res, next) {
 
 // CLIENTE
 /* GET Página Cliente */
-router.get('/cliente', auth, function (req, res, next) {
-    if (authUser(['Cliente'], req.user.rol)) {
-        res.render('administracion/admin', {
-            titulo: 'Cliente', layout: 'layouts/administracion',
-            nombre: req.user.nombre,
-            rol: req.user.auth,
-            message: req.flash()
-        });
-    } else {
-        next(createError(401, 'Permiso Denegado.'));
-    }
-});
+router.get('/cliente', auth, clienteController.principal);
 
 // ADMINISTRADOR
 /* GET Página Administración */

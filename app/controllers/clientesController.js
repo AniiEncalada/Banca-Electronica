@@ -15,6 +15,35 @@ var authUser = require('./auth-controller');
 var createError = require('http-errors');
 
 class ClienteController {
+    principal(req, res, next) {
+        if (authUser(['Cliente'], req.user.rol)) {
+            CuentaB.findOne({ where: { id_persona: req.user.persona } })
+                .then((cuentaB) => {
+                    const { nro_cuenta, estado_cuenta,
+                        saldo, fecha_apertura,
+                        fecha_modificacion } = cuentaB;
+                    res.render('administracion/admin', {
+                        titulo: 'Cliente', layout: 'layouts/administracion',
+                        nombre: req.user.nombre,
+                        rol: req.user.auth,
+                        cuentaB: {
+                            nro_cuenta,
+                            estado_cuenta: estado_cuenta ? 'Activo' : 'Inactivo',
+                            saldo: saldo.toFixed(2),
+                            fecha_apertura: moment(fecha_apertura).format('DD-MM-YYYY, LT'),
+                            fecha_modificacion: moment(fecha_modificacion).format('DD-MM-YYYY, LT')
+                        },
+                        message: req.flash()
+                    });
+                })
+                .catch(err => {
+                    return next(err)
+                })
+        } else {
+            next(createError(401, 'Permiso Denegado.'));
+        }
+    }
+
     cargarCliente(req, res, next) {
         if (authUser(['Servicio al Cliente'], req.user.rol)) {
             res.render('servicioClientes/registroClientes',
